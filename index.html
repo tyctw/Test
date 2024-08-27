@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>全屏菜單過渡動畫測試</title>
+    <title>全屏菜單特效美化測試</title>
     <style>
         /* 基本樣式重置 */
         body, html {
@@ -11,6 +11,7 @@
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f0f0f0;
+            overflow-x: hidden;
         }
 
         /* 設置全屏覆蓋 */
@@ -27,15 +28,16 @@
             z-index: 1000; /* 保證覆蓋其他內容 */
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.7s ease, transform 0.7s ease; /* 添加過渡效果 */
-            transform: scale(0.8); /* 初始縮小 */
+            transition: opacity 0.7s ease, transform 0.7s ease;
+            transform: scale(0.8);
+            backdrop-filter: blur(10px); /* 背景模糊效果 */
         }
 
         /* 顯示菜單時 */
         .menu.active {
             opacity: 1;
             visibility: visible;
-            transform: scale(1); /* 恢復正常大小 */
+            transform: scale(1);
         }
 
         /* 背景動畫效果 */
@@ -62,25 +64,49 @@
             list-style-type: none;
             text-align: center;
             position: relative;
-            z-index: 2; /* 保證在背景動畫之上 */
+            z-index: 2;
         }
 
         .menu ul li {
             margin: 20px 0;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .menu ul li:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .menu ul li:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .menu ul li:nth-child(4) {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes fadeInUp {
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .menu ul li a {
             color: white;
             text-decoration: none;
-            font-size: 2.5em; /* 調整字體大小 */
+            font-size: 2.5em;
             padding: 10px 20px;
-            border-radius: 5px;
-            transition: color 0.3s, background-color 0.3s;
+            border-radius: 10px;
+            transition: color 0.3s, background-color 0.3s, box-shadow 0.3s;
+            backdrop-filter: blur(10px); /* 玻璃效果 */
         }
 
         .menu ul li a:hover {
-            color: #4ca1af; /* 懸停效果 */
-            background-color: white; /* 懸停時顯示背景 */
+            color: #4ca1af;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
         /* 測試按鈕的樣式 */

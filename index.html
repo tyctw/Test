@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全屏菜單過渡動畫測試</title>
+    <style>
+        /* 基本樣式重置 */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* 設置全屏覆蓋 */
+        .menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9); /* 背景顏色，稍微透明 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000; /* 保證覆蓋其他內容 */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, transform 0.5s ease; /* 添加過渡效果 */
+            transform: scale(0.9); /* 初始縮小 */
+        }
+
+        /* 顯示菜單時 */
+        .menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1); /* 恢復正常大小 */
+        }
+
+        /* 調整菜單項目的樣式 */
+        .menu ul {
+            list-style-type: none;
+            text-align: center;
+        }
+
+        .menu ul li {
+            margin: 20px 0;
+        }
+
+        .menu ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 2em; /* 調整字體大小 */
+            transition: color 0.3s;
+        }
+
+        .menu ul li a:hover {
+            color: #f39c12; /* 懸停效果 */
+        }
+
+        /* 測試按鈕的樣式 */
+        .menu-buttons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .menu-buttons button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<!-- 全屏菜單 -->
+<div id="fullScreenMenu" class="menu">
+    <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</div>
+
+<!-- 控制按鈕 -->
+<div class="menu-buttons">
+    <button onclick="openMenu()">Open Menu</button>
+    <button onclick="closeMenu()">Close Menu</button>
+</div>
+
+<!-- JavaScript 控制 -->
+<script>
+    // 打開菜單
+    function openMenu() {
+        document.getElementById("fullScreenMenu").classList.add("active");
+    }
+
+    // 關閉菜單
+    function closeMenu() {
+        document.getElementById("fullScreenMenu").classList.remove("active");
+    }
+</script>
+
+</body>
+</html>

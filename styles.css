@@ -65,15 +65,30 @@ header {
 }
 
 .menu-toggle {
-  color: white;
-  font-size: 1.5em;
-  background: none;
+  background: rgba(255, 255, 255, 0.1);
   border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.2em;
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.menu-toggle:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .menu-toggle.active {
+  background: #3b82f6;
+}
+
+.menu-toggle.active i {
   transform: rotate(90deg);
 }
 

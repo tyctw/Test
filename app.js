@@ -403,6 +403,10 @@ function initializeEventListeners() {
   const menuExportCSV = document.getElementById('menuExportCSV');
   const menuExportPDF = document.getElementById('menuExportPDF');
   const menuPrintButton = document.getElementById('menuPrintButton');
+  const menuNormalBtn = document.getElementById('menuNormalBtn');
+  const menuVocationalBtn = document.getElementById('menuVocationalBtn');
+  const menuCompareBtn = document.getElementById('menuCompareBtn');
+  const menuFeedbackBtn = document.getElementById('menuFeedbackBtn');
   const tableViewBtn = document.getElementById('tableViewBtn');
   const chartViewBtn = document.getElementById('chartViewBtn');
   const tableView = document.getElementById('tableView');
@@ -414,29 +418,60 @@ function initializeEventListeners() {
 
   // Mobile menu close button
   menuCloseBtn.addEventListener('click', () => {
-    mobileMenu.classList.remove('active');
-    menuToggle.classList.remove('active');
-    document.body.style.overflow = ''; // Restore body scrolling
+    closeMenu();
   });
   
   // Menu export buttons
   menuExportCSV.addEventListener('click', () => {
-    mobileMenu.classList.remove('active');
-    menuToggle.classList.remove('active');
+    closeMenu();
     exportToCSV(currentSchools);
   });
   
   menuExportPDF.addEventListener('click', () => {
-    mobileMenu.classList.remove('active');
-    menuToggle.classList.remove('active');
+    closeMenu();
     exportToPDF();
   });
   
   menuPrintButton.addEventListener('click', () => {
-    mobileMenu.classList.remove('active');
-    menuToggle.classList.remove('active');
+    closeMenu();
     printData();
   });
+
+  // 新增的菜單按鈕功能
+  if (menuNormalBtn) {
+    menuNormalBtn.addEventListener('click', async () => {
+      closeMenu();
+      const normalSchools = await fetchAndDisplayData('normal');
+      normalBtn.classList.add('active');
+      vocationalBtn.classList.remove('active');
+      sortTable(2);
+    });
+  }
+
+  if (menuVocationalBtn) {
+    menuVocationalBtn.addEventListener('click', async () => {
+      closeMenu();
+      const vocationalSchools = await fetchAndDisplayData('vocational');
+      vocationalBtn.classList.add('active');
+      normalBtn.classList.remove('active');
+      sortTable(2);
+    });
+  }
+
+  if (menuCompareBtn) {
+    menuCompareBtn.addEventListener('click', () => {
+      closeMenu();
+      showNotification('學校比較功能即將推出，敬請期待！');
+    });
+  }
+
+  if (menuFeedbackBtn) {
+    menuFeedbackBtn.addEventListener('click', () => {
+      closeMenu();
+      window.open('https://forms.gle/YourFeedbackFormURL', '_blank');
+      showNotification('感謝您的寶貴意見！');
+    });
+  }
 
   normalBtn.addEventListener('click', async () => {
     const normalSchools = await fetchAndDisplayData('normal');
@@ -453,24 +488,47 @@ function initializeEventListeners() {
   });
 
   menuToggle.addEventListener('click', () => {
-    mobileMenu.classList.toggle('active');
-    menuToggle.classList.toggle('active');
-    
-    // Toggle body scrolling
-    if (mobileMenu.classList.contains('active')) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
+    toggleMenu();
   });
 
   document.addEventListener('click', (event) => {
     if (!mobileMenu.contains(event.target) && !menuToggle.contains(event.target)) {
-      mobileMenu.classList.remove('active');
-      menuToggle.classList.remove('active');
-      document.body.style.overflow = ''; // Restore body scrolling
+      closeMenu();
     }
   });
+
+  // 關閉菜單的函數
+  function closeMenu() {
+    mobileMenu.classList.remove('active');
+    menuToggle.classList.remove('active');
+    document.body.style.overflow = ''; // 恢復頁面滾動
+  }
+
+  // 切換菜單的函數
+  function toggleMenu() {
+    mobileMenu.classList.toggle('active');
+    menuToggle.classList.toggle('active');
+    
+    // 切換頁面滾動
+    if (mobileMenu.classList.contains('active')) {
+      document.body.style.overflow = 'hidden';
+      
+      // 添加菜單項目動畫
+      const menuItems = document.querySelectorAll('.menu-item-animation');
+      menuItems.forEach((item, index) => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateX(20px)';
+        
+        setTimeout(() => {
+          item.style.opacity = '1';
+          item.style.transform = 'translateX(0)';
+          item.style.transition = 'all 0.5s ease';
+        }, 100 + (index * 50));
+      });
+    } else {
+      document.body.style.overflow = '';
+    }
+  }
 
   searchInput.addEventListener('input', (e) => filterSchools(e.target.value));
 
